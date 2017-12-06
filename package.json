@@ -1,0 +1,16 @@
+{
+  "name": "magic-price-api",
+  "version": "1.0.0",
+  "description": "Card price API for Magic the Gathering",
+  "main": "scrape.js",
+  "scripts": {
+    "start": "node scrape.js"
+  },
+  "author": "Nolan Aguirre",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.2",
+    "request": "^2.83.0"
+  }
+}
