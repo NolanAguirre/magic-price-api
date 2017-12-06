@@ -1,8 +1,9 @@
-var request = require('request');
-var cheerio = require('cheerio');
+const request = require('request');
+const cheerio = require('cheerio');
 const express = require('express');
 const app = express();
 const path = require('path');
+const port = (process.env.PORT || 3000);
 
 app.use('/', express.static(__dirname + '/'));
 
@@ -19,9 +20,8 @@ app.get('/*', function(req, res, next) {
   });
 });
 
-const hostname = 'localhost';
-const port = 3000;
 
-const server = app.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+
+const server = app.listen(port, () => {
+  console.log(`Server running on port: ${port}`);
 });
