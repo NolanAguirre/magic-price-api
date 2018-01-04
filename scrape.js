@@ -1,10 +1,13 @@
 const request = require('request');
 const cheerio = require('cheerio');
 const express = require('express');
+require('dotenv').config()
 const app = express();
 const path = require('path');
-const port = (process.env.PORT || 3000);
+const cors = require('cors')
+const port = (process.env.PORT || 3002);
 
+app.use(cors());
 app.use('/', express.static(__dirname + '/'));
 
 app.get('/*', function(req, res, next) {
