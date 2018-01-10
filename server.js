@@ -26,7 +26,7 @@ function createHomepageHandler(
     console.log("got a get request ", urlKey);
     if (cards[urlKey] && Date.now() - cards[urlKey].date < oneDay) { // has been scraped today
       res.send(cards[urlKey]);
-    } else if (!users[urlKey]) { // has never been scraped
+    } else if (!cards[urlKey]) { // has never been scraped
       cards.add(urlKey, {
         price: null,
         key: urlKey,
@@ -52,11 +52,11 @@ function createHomepageHandler(
 }
 
 async function createApp() {
-  const users = await fero('cards', {
+  const cards = await fero('cards', {
     client: true
   })
   const app = express();
-  const homepageHandler = createHomepageHandler(users) // injecting the ready-to-use client
+  const homepageHandler = createHomepageHandler(cards) // injecting the ready-to-use client
   app.use(cors());
   app.get('/*', homepageHandler)
   return app.listen(port, () => {
