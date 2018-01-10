@@ -3,36 +3,40 @@ const request = require('request');
 const cheerio = require('cheerio');
 
 const scrape = function(req, cache) {
-  console.log("scraping")
-  let foo;
-    request('https://www.mtggoldfish.com/price' + req.value.value.url + '#paper', function(error, response, html) {
+    console.log("scraping")
+    let foo;
+    let url = req.value.value.url;
+    request('https://www.mtggoldfish.com/price' + url + '#paper', function(error, response, html) {
       if (!error && response.statusCode == 200) {
         var $ = cheerio.load(html);
         try {
           foo = $('div[class=price-box-price]').get(1)['children'][0]['data'];
         } catch (err) {
-           foo = $('div[class=price-box-price]').text();
+          foo = $('div[class=price-box-price]').text();
         }
-        cache.update(req.value.value.url,{price: foo, date: Date.now()})
-      }else{
-        cache.update(req.value.value.url,{price: "cannot be fetched at this time", date: Date.now()})
+        cache.update(url, {
+          price: foo,
+          date: Date.now()
+        })
+      } else {
+        cache.update(url, {
+          price: "cannot be fetched at this time",
+          date: Date.now()
+        })
       }
     });
   }
 
   !async function start() {
-    const users = await fero('users', async function(req, cache) {
-      console.log(req.value);
-        if (req._type) {
-          return cache.change(req)
-        }
-        switch (req.value.value.type) {
-          case "SCRAPE":
-            return scrape(req, cache);
-          default:
-            return "Method Not Allowed";
-        }
+    const users = await fero('cards', async function(req, cache) {
+      if (req._type) {
+        return cache.change(req)
       }
-    )
-    console.log('READY1')
+      switch (req.value.value.type) {
+        case "SCRAPE":
+          return scrape(req, cache);
+        default:
+          return "Method Not Allowed";
+      }
+    })
   }()
