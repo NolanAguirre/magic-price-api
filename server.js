@@ -6,18 +6,21 @@ const path = require('path');
 const cors = require('cors')
 const port = (process.env.PORT || 3002);
 const fero = require('fero');
-const oneDay = 86400000;
+const oneDay = 10000; //86400000;
 
 function createHomepageHandler(
   cards
 ) {
   return function(req, res) {
     cards.on('change')
-      .map(function(msg) {
-        if (msg._key == req.url && msg.value.price) {
-          res.send(msg.value)
-        }
-      })
+      .filter(function(msg) {
+        return msg._key == req.url && msg.value.price;
+          //res.send(msg.value)
+        }).map(function(msg){
+          if(!res._headerSent){
+            res.send(msg.value)
+          }
+        })
     //.filter(function(message){message._key == req.url.value})
     //  .map(function(msg){
     //    res.send(msg._value)
@@ -40,13 +43,18 @@ function createHomepageHandler(
         }
       }).on('reply')
     } else { // has been scraped, but is older than one day
-      // await scrape(users, url);
-      // users.on('change')
-      //   .map(function(msg) {
-      //     if(msg.key == url){
-      //       req.send(msg.value.price);
-      //     }
-      //   })
+      cards.update(urlKey, {
+        price: null,
+        key: urlKey,
+        date: null
+      })
+      cards.peers.send({
+        key: urlKey,
+        value: {
+          type: 'SCRAPE',
+          url: urlKey
+        }
+      }).on('reply')
     }
   }
 }
