@@ -3,25 +3,24 @@ const request = require('request');
 const cheerio = require('cheerio');
 
 const scrape = function(req, cache) {
-    console.log("scraping")
-    let foo;
+    let price;
     let url = req.value.value.url;
     request('https://www.mtggoldfish.com/price' + url + '#paper', function(error, response, html) {
       if (!error && response.statusCode == 200) {
         var $ = cheerio.load(html);
         try {
-          foo = $('div[class=price-box-price]').get(1)['children'][0]['data'];
+          price = $('div[class=price-box-price]').get(1)['children'][0]['data'];
         } catch (err) {
-          foo = $('div[class=price-box-price]').text();
+          price = $('div[class=price-box-price]').text();
         }
         cache.update(url, {
-          price: foo,
+          price: price,
           date: Date.now()
         })
       } else {
         cache.update(url, {
           price: "cannot be fetched at this time",
-          date: Date.now()
+          date: 0
         })
       }
     });
@@ -37,5 +36,4 @@ const scrape = function(req, cache) {
       }
     })
     await cards.on('connected');
-    console.log("ready");
   }()
