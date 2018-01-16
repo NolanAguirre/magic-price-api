@@ -8,7 +8,7 @@ const port = (process.env.PORT || 3002);
 const fero = require('fero');
 const oneDay = 86400000;
 
-function createHomepageHandler(
+function requestHandler(
   cards
 ) {
   return function(req, res) {
@@ -53,9 +53,9 @@ async function createApp() {
   await cards.on('connected');
   console.log("ready");
   const app = express();
-  const homepageHandler = createHomepageHandler(cards)
+  const localRequestHandler = requestHandler(cards)
   app.use(cors());
-  app.get('/*', homepageHandler)
+  app.get('/*', localRequestHandler)
   return app.listen(port, () => {
     console.log(`Server running on port: ${port}`);
   });
