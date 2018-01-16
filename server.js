@@ -51,7 +51,6 @@ async function createApp() {
     client: true
   })
   await cards.on('connected');
-  console.log("ready");
   const app = express();
   const localRequestHandler = requestHandler(cards)
   app.use(cors());
