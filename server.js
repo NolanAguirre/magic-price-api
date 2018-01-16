@@ -6,7 +6,7 @@ const path = require('path');
 const cors = require('cors')
 const port = (process.env.PORT || 3002);
 const fero = require('fero');
-const oneDay = 10000; //86400000;
+const oneDay = 86400000;
 
 function createHomepageHandler(
   cards
@@ -15,46 +15,33 @@ function createHomepageHandler(
     cards.on('change')
       .filter(function(msg) {
         return msg._key == req.url && msg.value.price;
-          //res.send(msg.value)
-        }).map(function(msg){
-          if(!res._headerSent){
-            res.send(msg.value)
-          }
-        })
-    //.filter(function(message){message._key == req.url.value})
-    //  .map(function(msg){
-    //    res.send(msg._value)
-    //  })
+      }).map(function(msg) {
+        if (!res._headerSent) {
+          res.send(msg.value)
+        }
+      })
     let urlKey = req.url;
     console.log("got a get request ", urlKey);
     if (cards[urlKey] && Date.now() - cards[urlKey].date < oneDay) { // has been scraped today
       res.send(cards[urlKey]);
     } else if (!cards[urlKey]) { // has never been scraped
       cards.add(urlKey, {
-        price: null,
-        key: urlKey,
-        date: null
-      }).on('reply');
-      cards.peers.send({
-        key: urlKey,
+        type: 'SCRAPE',
         value: {
-          type: 'SCRAPE',
-          url: urlKey
+          price: null,
+          url: urlKey,
+          date: null
         }
-      }).on('reply')
+      });
     } else { // has been scraped, but is older than one day
       cards.update(urlKey, {
-        price: null,
-        key: urlKey,
-        date: null
-      })
-      cards.peers.send({
-        key: urlKey,
+        type: 'SCRAPE',
         value: {
-          type: 'SCRAPE',
-          url: urlKey
+          price: null,
+          url: urlKey,
+          date: null
         }
-      }).on('reply')
+      })
     }
   }
 }
@@ -63,8 +50,10 @@ async function createApp() {
   const cards = await fero('cards', {
     client: true
   })
+  await cards.on('connected');
+  console.log("ready");
   const app = express();
-  const homepageHandler = createHomepageHandler(cards) // injecting the ready-to-use client
+  const homepageHandler = createHomepageHandler(cards)
   app.use(cors());
   app.get('/*', homepageHandler)
   return app.listen(port, () => {

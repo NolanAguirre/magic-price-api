@@ -28,15 +28,14 @@ const scrape = function(req, cache) {
   }
 
   !async function start() {
-    const users = await fero('cards', async function(req, cache) {
-      if (req._type) {
-        return cache.change(req)
-      }
-      switch (req.value.value.type) {
+    const cards = await fero('cards', async function(req, cache) {
+      switch (req.value.type) {
         case "SCRAPE":
           return scrape(req, cache);
         default:
           return "Method Not Allowed";
       }
     })
+    await cards.on('connected');
+    console.log("ready");
   }()
