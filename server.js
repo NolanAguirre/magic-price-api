@@ -17,7 +17,7 @@ function requestHandler(
                 return msg._key == req.url && msg.value.price;
             }).map(function(msg) {
                 if (!res._headerSent) {
-                    res.send(msg.value)
+                    res.send(msg.value.price)
                 }
             })
         let urlKey = req.url;
@@ -54,7 +54,11 @@ async function createApp() {
     const app = express();
     const localRequestHandler = requestHandler(cards)
     app.use(cors());
+    app.use('/', express.static(__dirname +  '/'));
     app.get('/*', localRequestHandler)
+    app.get('/', function(req, res) {
+        res.sendFile(path.join(__dirname + '/index.html'));
+    });
     return app.listen(port, () => {
         console.log(`Server running on port: ${port}`);
     });
