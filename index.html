@@ -12,27 +12,71 @@
     </div>
     <div class="main-body">
         <div class="into">
-            <!-- intro -->
         </div>
         <div class="about">
-            <!-- about -->
+            <div class="main-section-header">
+                <h2>About</h2>
+            </div>
+            <div class="basic-container">
+                <div class="basic-section">
+                    <div class="usage-section-header">
+                        Up to date
+                    </div>
+                    <!-- url encoding -->
+                </div>
+                <div class="basic-section">
+                    <div class="usage-section-header">
+                        Purpose
+                    </div>
+                    <!-- url encoding -->
+                </div>
+            </div>
         </div>
         <div class="usage">
-            <!-- usage -->
+            <div class="main-section-header">
+                <h2>Usage</h2>
+            </div>
+            <div class="basic-container usage-container">
+                <div class="basic-container">
+                    <div class="basic-section">
+                        <div class="usage-section-header">
+                            url encoding
+                        </div>
+                        <!-- url encoding -->
+                    </div>
+                    <div class="basic-section">
+                        <div class="usage-section-header">
+                            request w/ json
+                        </div>
+                        A query for foil charging badger from born of the gods using json would look like this. json requests are made to /search
+                        <pre class="prettyprint">
+
+{
+    set: "Born of the Gods",
+    name: "Charging badger",
+    foil: true;
+}
+
+                        </pre>
+                        <!-- json -->
+                    </div>
+                </div>
+                <div class="usage-footer">
+                    This api uses <a href="http://mtgjson.com">mtgjson</a> to stay up to date. All set names are based off the name found there.
+                </div>
+            </div>
         </div>
         <div class="limitations">
-            <div class="limitations-header">
+            <div class="main-section-header">
                 <h2>Limitations</h2>
             </div>
-            <div class="limitations-container">
-                <div class="limitations-section">
+            <div class="basic-container">
+                <div class="basic-section limitations-section">
                     <div class="missing-sets-title">The price api has several limitations:</div>
-                    Prices are refreshed hourly.<br>
-                    Paper prices only.</br>
-                    Sets' names my differ depending on the soure.<br>
-                    Some sets cannot be priced using this api.
+                    Prices are refreshed hourly.<br> Paper prices only.</br>
+                    Sets' names my differ depending on the soure.<br> Some sets cannot be priced using this api.<br> TCG mid only <br> This api isn't finished yet.
                 </div>
-                <div class="limitations-section">
+                <div class="basic-section limitations-section">
                     <div class="missing-sets-title">Non-avaliable sets:</div>
                     <ul>
                         <li>Guru</li>
@@ -47,12 +91,17 @@
             </div>
         </div>
         <div class="contact">
-            <!-- contact -->
+            <div class="main-section-header">
+                <h2>Contact</h2>
+            </div>
         </div>
-        <div class="donate">
-            <!-- donate -->
-        </div>
+        <!-- <div class="donate">
+            <div class="main-section-header">
+                <h2>Donate</h2>
+            </div>
+        </div> -->
     </div>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
 </body>
 
 </html>
