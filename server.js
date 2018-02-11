@@ -1,6 +1,7 @@
 const request = require('request');
 const cheerio = require('cheerio');
 const express = require('express');
+const bodyParser = require('body-parser');
 require('dotenv').config()
 const path = require('path');
 const cors = require('cors')
@@ -12,6 +13,16 @@ function requestHandler(
     cards
 ) {
     return function(req, res) {
+        function getSetConflicts(set){
+            return set;
+        }
+        function formatUrl(requestObject){
+            let url = '';
+            url += requestObject.set;
+            url += requestObject.foil ? ':Foil' : '';
+            url += '/' + requestObject.name;
+            return url
+        }
         cards.on('change')
             .filter(function(msg) {
                 return msg._key == req.url && msg.value.price;
@@ -20,7 +31,7 @@ function requestHandler(
                     res.send(msg.value.price)
                 }
             })
-        let urlKey = req.url;
+        let urlKey = (req.url == "/search") ? formatUrl(req.body) : req.url;
         console.log("got a get request ", urlKey);
         if (cards[urlKey] && Date.now() - cards[urlKey].date < oneDay) { // has been scraped today
             res.send(cards[urlKey]);
@@ -55,6 +66,7 @@ async function createApp() {
     const localRequestHandler = requestHandler(cards)
     app.use(cors());
     app.use('/', express.static(__dirname +  '/'));
+    app.use(bodyParser.json());
     app.get('/*', localRequestHandler)
     app.get('/', function(req, res) {
         res.sendFile(path.join(__dirname + '/index.html'));
