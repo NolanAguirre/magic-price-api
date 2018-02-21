@@ -1,6 +1,7 @@
 *{
     margin:0;
 }
+
 .header-container{
     position: fixed;
     left:0;
@@ -50,7 +51,7 @@
 }
 .limitations-section li{
     list-style-type: circle;
-    padding: 5px 0;
+    padding: 2px 0;
 }
 .missing-sets-title{
     font-size: 24px;

@@ -4,6 +4,7 @@
     <title>Magic Price</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="stylesheet" href="styles.css">
+
 </head>
 
 <body>
@@ -22,13 +23,18 @@
                     <div class="usage-section-header">
                         Up to date
                     </div>
-                    <!-- url encoding -->
+                    <p>
+                        This API uses webscrapping to obtain price data for MTG cards. The current scraping source is <a href="https://mtggoldfish.com"> mtggoldfish</a>, this means that this api is up to date as long as mtggoldfish is kept up to date.
+                    </p>
                 </div>
                 <div class="basic-section">
                     <div class="usage-section-header">
                         Purpose
                     </div>
-                    <!-- url encoding -->
+                    <p>
+                        This price api was developed alongside an inventory system for MTG singles. While the inventoy system isn't a free service I've left this api open for anyone to use, as there is no easy to use and free price api. If usage becomes too high and hosting
+                        costs become to much the api will be closed.
+                    </p>
                 </div>
             </div>
         </div>
@@ -42,7 +48,7 @@
                         <div class="usage-section-header">
                             url encoding
                         </div>
-                        <!-- url encoding -->
+                        URL encoding is not supported yet.
                     </div>
                     <div class="basic-section">
                         <div class="usage-section-header">
@@ -58,11 +64,10 @@
 }
 
                         </pre>
-                        <!-- json -->
                     </div>
                 </div>
                 <div class="usage-footer">
-                    This api uses <a href="http://mtgjson.com">mtgjson</a> to stay up to date. All set names are based off the name found there.
+                    This api uses <a href="http://mtgjson.com">mtgjson's</a> set names.
                 </div>
             </div>
         </div>
@@ -73,8 +78,14 @@
             <div class="basic-container">
                 <div class="basic-section limitations-section">
                     <div class="missing-sets-title">The price api has several limitations:</div>
-                    Prices are refreshed hourly.<br> Paper prices only.</br>
-                    Sets' names my differ depending on the soure.<br> Some sets cannot be priced using this api.<br> TCG mid only <br> This api isn't finished yet.
+                    <ul>
+                        <li>Prices are refreshed hourly.</li>
+                        <li>Paper prices only.</li>
+                        <li>Sets' names my differ depending on the soure.</li>
+                        <li>Some sets cannot be priced using this api.</li>
+                        <li>TCG mid only </li>
+                        <li>This api isn't finished yet.</li>
+                    </ul>
                 </div>
                 <div class="basic-section limitations-section">
                     <div class="missing-sets-title">Non-avaliable sets:</div>
@@ -94,6 +105,22 @@
             <div class="main-section-header">
                 <h2>Contact</h2>
             </div>
+            <div class="basic-container">
+                <div class="basic-section">
+
+                </div>
+                <div class="basic-section">
+                    <a href="https://github.com/NolanAguirre">
+                        <i class="fab fa-github fa-3x"></i>
+                    </a>
+                    <a href="https://github.com/NolanAguirre">
+                        <i class="fab fa-linkedin fa-3x"></i>
+                    </a>
+                    <a href="mailto:nolanaguirre08@gmail.com">
+                        <i class="fas fa-envelope fa-3x"></i>
+                    </a>
+                </div>
+            </div>
         </div>
         <!-- <div class="donate">
             <div class="main-section-header">
@@ -102,6 +129,7 @@
         </div> -->
     </div>
     <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 </body>
 
 </html>
