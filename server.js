@@ -1,5 +1,3 @@
-const request = require('request');
-const cheerio = require('cheerio');
 const express = require('express');
 const bodyParser = require('body-parser');
 require('dotenv').config()
@@ -7,7 +5,7 @@ const path = require('path');
 const cors = require('cors')
 const port = (process.env.PORT || 3002);
 const fero = require('fero');
-const oneDay = 86400000;
+const scrapingAge = 86400000;
 
 function requestHandler(
     cards
@@ -18,23 +16,15 @@ function requestHandler(
         }
         function formatUrl(requestObject){
             let url = '';
-            url += requestObject.set;
+            url += requestObject.set.replace(/[^a-zA-Z\d\s]/g, "").replace(/ /g, '+');
             url += requestObject.foil ? ':Foil' : '';
-            url += '/' + requestObject.name;
+            url += '/' + requestObject.name.replace(/[^a-zA-Z\d\s]/g, "").replace(/ /g, '+');
             return url
         }
-        cards.on('change')
-            .filter(function(msg) {
-                return msg._key == req.url && msg.value.price;
-            }).map(function(msg) {
-                if (!res._headerSent) {
-                    res.send(msg.value.price)
-                }
-            })
-        let urlKey = (req.url == "/search") ? formatUrl(req.body) : req.url;
+        let urlKey = formatUrl(req.body);
         console.log("got a get request ", urlKey);
-        if (cards[urlKey] && Date.now() - cards[urlKey].date < oneDay) { // has been scraped today
-            res.send(cards[urlKey]);
+        if (cards[urlKey] && Date.now() - cards[urlKey].date < scrapingAge) {
+            res.send(cards[urlKey].price);
         } else if (!cards[urlKey]) { // has never been scraped
             cards.add(urlKey, {
                 type: 'SCRAPE',
@@ -43,6 +33,8 @@ function requestHandler(
                     url: urlKey,
                     date: null
                 }
+            }).on('reply').then(function(data){
+                res.json(data.value);
             });
         } else { // has been scraped, but is older than one day
             cards.update(urlKey, {
@@ -67,7 +59,7 @@ async function createApp() {
     app.use(cors());
     app.use('/', express.static(__dirname +  '/'));
     app.use(bodyParser.json());
-    app.get('/*', localRequestHandler)
+    app.post('/', localRequestHandler)
     app.get('/', function(req, res) {
         res.sendFile(path.join(__dirname + '/index.html'));
     });
