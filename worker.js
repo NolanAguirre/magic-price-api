@@ -4,6 +4,7 @@ const cheerio = require('cheerio');
 
 const scrape = function(req, cache) {
     let url = req.value.value.url;
+    console.log("working on", url);
     return fetch('https://www.mtggoldfish.com/price/' + url + '#paper')
         .then(res => res.text())
         .then(function(body){
