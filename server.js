@@ -35,8 +35,9 @@ const setNameIssues = {
     "15th Anniversary": "Pro+Tour+Promos",
     "Two-Headed Giant Tournament": "Arena+Promos",
     "Dragon Con": "Media + Promos",
-    "Vintage Masters": "online",
+
     "Modern Masters 2015 Edition": "Modern+Masters+2015",
+    "Vintage Masters": "online",
     "Masters Edition II": "online",
     "Masters Edition": "online",
     "Masters Edition IV": "online",
