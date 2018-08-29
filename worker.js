@@ -6,9 +6,16 @@ const scrape = function(req, cache) {
     let url = req.value.value.url;
     console.log("working on", url);
     return fetch('https://www.mtggoldfish.com/price/' + url + '#paper')
-        .then(res => res.text())
+        .then(res => {
+            if (res.status == 200) {
+                return res.text();
+            } else {
+                return;
+            }
+        })
         .then(function(body){
             let price ="price is not available";
+            if(body){
             var $ = cheerio.load(body);
             try {
                 price = $('div[class=price-box-price]').get(1)['children'][0]['data'];
@@ -20,9 +27,9 @@ const scrape = function(req, cache) {
                 price: price,
                 date: Date.now()
             })
+        }    
             return price;
-        }).catch(function(err){
-            console.log(err);
+        }).catch(function(err) {
             return "price is not available";
         });
 }
